@@ -98,15 +98,15 @@ namespace NarcInvasion
         private static void InitDialogueChoices()
         {
             string enterText = "Enter";
-            string yes = "Yes";
-            string no = "No";
+            string yes = "[Yes]";
+            string no = " No ";
             
             string emptyText = "";
             for (int i = 0; i < (maxX - 1 - 4) * 2; i++) emptyText += " ";
             
             dialogueEnter = new GameObject(enterText, maxX - 2 - enterText.Length, maxY - 1, ConsoleColor.DarkYellow);
-            dialogueChoiceYes = new GameObject(yes, maxX / 4 - yes.Length / 2, maxY - 2, ConsoleColor.Yellow);
-            dialogueChoiceNo = new GameObject(no, maxX * 3 / 4 - no.Length, maxY - 2, ConsoleColor.White);
+            dialogueChoiceYes = new GameObject(yes, maxX / 4 - yes.Length / 2, maxY - 2, ConsoleColor.White);
+            dialogueChoiceNo = new GameObject(no, maxX * 3 / 4 - no.Length, maxY - 2, ConsoleColor.Yellow);
             dialogueChoiceSelected = dialogueChoiceYes;
             dialogueEmpty = new GameObject(Wrap(emptyText), dialogueTextX, dialogueTextY, ConsoleColor.White);
         }
@@ -383,8 +383,10 @@ namespace NarcInvasion
                     dialogue.Answer.No(dialogue.Answer.CorrectAnswer);
                 }
                 dialogueChoiceSelected = dialogueChoiceYes;
-                dialogueChoiceYes.Color = ConsoleColor.Yellow;
-                dialogueChoiceNo.Color = ConsoleColor.White;
+                dialogueChoiceYes.Text = "[Yes]";
+                dialogueChoiceNo.Text = " No ";
+                dialogueChoiceYes.Color = ConsoleColor.White;
+                dialogueChoiceNo.Color = ConsoleColor.Yellow;
             }
         }
 
@@ -406,14 +408,18 @@ namespace NarcInvasion
             if (dialogueChoiceSelected == dialogueChoiceYes)
             {
                 dialogueChoiceSelected = dialogueChoiceNo;
-                dialogueChoiceYes.Color = ConsoleColor.White;
-                dialogueChoiceNo.Color = ConsoleColor.Yellow;
+                dialogueChoiceNo.Text = "[No]";
+                dialogueChoiceYes.Text = " Yes ";
+                dialogueChoiceYes.Color = ConsoleColor.Yellow;
+                dialogueChoiceNo.Color = ConsoleColor.White;
             }
             else
             {
                 dialogueChoiceSelected = dialogueChoiceYes;
-                dialogueChoiceYes.Color = ConsoleColor.Yellow;
-                dialogueChoiceNo.Color = ConsoleColor.White;
+                dialogueChoiceNo.Text = " No ";
+                dialogueChoiceYes.Text = "[Yes]";
+                dialogueChoiceYes.Color = ConsoleColor.White;
+                dialogueChoiceNo.Color = ConsoleColor.Yellow;
             }
             Draw.DrawObject(dialogueChoiceYes);
             Draw.DrawObject(dialogueChoiceNo);
