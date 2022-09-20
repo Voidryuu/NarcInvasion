@@ -98,15 +98,15 @@ namespace NarcInvasion
         private static void InitDialogueChoices()
         {
             string enterText = "Enter";
-            string yes = "[Yes]";
-            string no = " No ";
+            string yes = "Yes";
+            string no = "No";
             
             string emptyText = "";
             for (int i = 0; i < (maxX - 1 - 4) * 2; i++) emptyText += " ";
             
             dialogueEnter = new GameObject(enterText, maxX - 2 - enterText.Length, maxY - 1, ConsoleColor.DarkYellow);
-            dialogueChoiceYes = new GameObject(yes, maxX / 4 - yes.Length / 2, maxY - 2, ConsoleColor.White);
-            dialogueChoiceNo = new GameObject(no, maxX * 3 / 4 - no.Length, maxY - 2, ConsoleColor.Yellow);
+            dialogueChoiceYes = new GameObject(yes, maxX / 4 - yes.Length / 2, maxY - 2, ConsoleColor.Yellow);
+            dialogueChoiceNo = new GameObject(no, maxX * 3 / 4 - no.Length, maxY - 2, ConsoleColor.White);
             dialogueChoiceSelected = dialogueChoiceYes;
             dialogueEmpty = new GameObject(Wrap(emptyText), dialogueTextX, dialogueTextY, ConsoleColor.White);
         }
@@ -151,10 +151,10 @@ namespace NarcInvasion
         private static void InitBirdDialogue()
         {
             Answer canYouHelpAnswer = new Answer((o) => { isInitialDialogueWithBirdDone = true; Draw.DrawObjects(persons); }, (o) => InitBirdDialogue());
-            dialogue.Enqueue(new Dialogue(Wrap("3p: Hello! Can you help me?"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "hello.mp3"));
+            dialogue.Enqueue(new Dialogue(Wrap("3π: Hello! Can you help me?"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "hello.mp3"));
             dialogue.Enqueue(new Dialogue(Wrap("mc: Wow... a bird that can speak. What do you need help with?"), dialogueTextX, dialogueTextY, ConsoleColor.White));
-            dialogue.Enqueue(new Dialogue(Wrap("3p: A terrible mental disease has started to appear on my planet. I came here because the disease seems to have already spread very widely among humans here :("), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "a-terrible-disease.mp3"));
-            dialogue.Enqueue(new Dialogue(Wrap("3p: Can you help me learn more about the disease by speaking to the humans in the park?"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, canYouHelpAnswer, soundPath + "can-you-help.mp3"));
+            dialogue.Enqueue(new Dialogue(Wrap("3π: A terrible mental disease has started to appear on my planet. I came here because the disease seems to have already spread very widely among humans here :("), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "a-terrible-disease.mp3"));
+            dialogue.Enqueue(new Dialogue(Wrap("3π: Can you help me learn more about the disease by speaking to the humans in the park?"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, canYouHelpAnswer, soundPath + "can-you-help.mp3"));
         }
 
         private static void InitPersons()
@@ -166,8 +166,8 @@ namespace NarcInvasion
             
             Answer personIsNarc = new Answer((o) => HandleIsPersonNarc(o), (o) => HandleIsPersonNarc(o), dialogueChoiceYes);
             Answer personIsNoNarc = new Answer((o) => HandleIsPersonNarc(o), (o) => HandleIsPersonNarc(o), dialogueChoiceNo);
-            Dialogue doesPersonHaveAProblemNarc = new Dialogue(Wrap("3p: Does this person seem to have a problem?"), dialogueTextX, dialogueTextY, bird.Color, personIsNarc, soundPath + "this-person-has-a-problem.mp3");
-            Dialogue doesPersonHaveAProblemNoNarc = new Dialogue(Wrap("3p: Does this person seem to have a problem?"), dialogueTextX, dialogueTextY, bird.Color, personIsNoNarc, soundPath + "this-person-has-a-problem.mp3");
+            Dialogue doesPersonHaveAProblemNarc = new Dialogue(Wrap("3π: Does this person seem to have a problem?"), dialogueTextX, dialogueTextY, bird.Color, personIsNarc, soundPath + "this-person-has-a-problem.mp3");
+            Dialogue doesPersonHaveAProblemNoNarc = new Dialogue(Wrap("3π: Does this person seem to have a problem?"), dialogueTextX, dialogueTextY, bird.Color, personIsNoNarc, soundPath + "this-person-has-a-problem.mp3");
 
             person1.Dialogue.Enqueue(new Dialogue(Wrap("Person: *talking to someone else* \"Why are you being so difficult, get over it already!\""), dialogueTextX, dialogueTextY, person1.Color, soundPath + "why-so-difficult.mp3"));
             person1.Dialogue.Enqueue(doesPersonHaveAProblemNarc);
@@ -383,10 +383,8 @@ namespace NarcInvasion
                     dialogue.Answer.No(dialogue.Answer.CorrectAnswer);
                 }
                 dialogueChoiceSelected = dialogueChoiceYes;
-                dialogueChoiceYes.Text = "[Yes]";
-                dialogueChoiceNo.Text = " No ";
-                dialogueChoiceYes.Color = ConsoleColor.White;
-                dialogueChoiceNo.Color = ConsoleColor.Yellow;
+                dialogueChoiceYes.Color = ConsoleColor.Yellow;
+                dialogueChoiceNo.Color = ConsoleColor.White;
             }
         }
 
@@ -408,18 +406,14 @@ namespace NarcInvasion
             if (dialogueChoiceSelected == dialogueChoiceYes)
             {
                 dialogueChoiceSelected = dialogueChoiceNo;
-                dialogueChoiceNo.Text = "[No]";
-                dialogueChoiceYes.Text = " Yes ";
-                dialogueChoiceYes.Color = ConsoleColor.Yellow;
-                dialogueChoiceNo.Color = ConsoleColor.White;
+                dialogueChoiceYes.Color = ConsoleColor.White;
+                dialogueChoiceNo.Color = ConsoleColor.Yellow;
             }
             else
             {
                 dialogueChoiceSelected = dialogueChoiceYes;
-                dialogueChoiceNo.Text = " No ";
-                dialogueChoiceYes.Text = "[Yes]";
-                dialogueChoiceYes.Color = ConsoleColor.White;
-                dialogueChoiceNo.Color = ConsoleColor.Yellow;
+                dialogueChoiceYes.Color = ConsoleColor.Yellow;
+                dialogueChoiceNo.Color = ConsoleColor.White;
             }
             Draw.DrawObject(dialogueChoiceYes);
             Draw.DrawObject(dialogueChoiceNo);
@@ -457,24 +451,24 @@ namespace NarcInvasion
             {
                 if (dialogueChoiceSelected == correctAnswer)
                 {
-                    dialogue.Enqueue(new Dialogue(Wrap("3p: You are right! The person wasn't able to drain mental energy from you!"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "right-no-energy-drained.mp3"));
+                    dialogue.Enqueue(new Dialogue(Wrap("3π: You are right! The person wasn't able to drain mental energy from you!"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "right-no-energy-drained.mp3"));
                 }
                 else
                 {
-                    dialogue.Enqueue(new Dialogue(Wrap("3p: You are wrong! The person drained your mental energy!"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "wrong-energy-drained.mp3"));
+                    dialogue.Enqueue(new Dialogue(Wrap("3π: You are wrong! The person drained your mental energy!"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "wrong-energy-drained.mp3"));
                 }
                 Answer answer = new Answer((o) => StartBattle(), (o) => { });
-                dialogue.Enqueue(new Dialogue(Wrap("3p: Would you like to try to cure them by killing the evil in them in battle?"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, answer, soundPath + "cure-them.mp3"));
+                dialogue.Enqueue(new Dialogue(Wrap("3π: Would you like to try to cure them by killing the evil in them in battle?"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, answer, soundPath + "cure-them.mp3"));
             }
             else
             {
                 if (dialogueChoiceSelected == correctAnswer)
                 {
-                    dialogue.Enqueue(new Dialogue(Wrap("3p: You are right! This person isn't evil!"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "right-no-evil.mp3"));
+                    dialogue.Enqueue(new Dialogue(Wrap("3π: You are right! This person isn't evil!"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "right-no-evil.mp3"));
                 }
                 else
                 {
-                    dialogue.Enqueue(new Dialogue(Wrap("3p: You are wrong! But don't worry, this person isn't evil!"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "wrong-no-evil.mp3"));
+                    dialogue.Enqueue(new Dialogue(Wrap("3π: You are wrong! But don't worry, this person isn't evil!"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "wrong-no-evil.mp3"));
                 }
             }
             DrawDialogue();
@@ -529,7 +523,7 @@ namespace NarcInvasion
         private static string GetHealthBarText(int health, GameObject person)
         {
             string healthbar = "";
-            for (int i = 0; i < health*4; i++) healthbar += "?";
+            for (int i = 0; i < health*4; i++) healthbar += "▬";
             return healthbar;
         }
 
@@ -629,7 +623,7 @@ namespace NarcInvasion
             int nrOfNarcs = CountNrOfNarcs();
             if (nrOfNarcs == 0)
             {
-                dialogue.Enqueue(new Dialogue(Wrap("3p: You have cured all evil in the world and thanks to you i learned how to save my planet! *ascends in a spaceship*"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "you-saved-the-world.mp3"));
+                dialogue.Enqueue(new Dialogue(Wrap("3π: You have cured all evil in the world and thanks to you i learned how to save my planet! *ascends in a spaceship*"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "you-saved-the-world.mp3"));
                 DrawDialogue();
                 gameState = GameState.GameOver;
             }
@@ -654,7 +648,7 @@ namespace NarcInvasion
         private static void DrawBattleInstructionsDialogue()
         {
             Thread.Sleep(2000);
-            Dialogue dialogue = new Dialogue(Wrap("3p: Be careful to not get absorbed by the black hole of their insecure ego!"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "be-careful.mp3");
+            Dialogue dialogue = new Dialogue(Wrap("3π: Be careful to not get absorbed by the black hole of their insecure ego!"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "be-careful.mp3");
             Draw.DrawObject(dialogue);
             Draw.DrawObjects(dialogueBorderLines);
             PlayDialogueSound(dialogue);
@@ -664,7 +658,7 @@ namespace NarcInvasion
             Thread.Sleep(5000);
             if (gameState == GameState.Battle)
             {
-                dialogue = new Dialogue(Wrap("3p: You can press Enter to make walls of rocks that kill their evil words!"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "press-enter.mp3");
+                dialogue = new Dialogue(Wrap("3π: You can press Enter to make walls of rocks that kill their evil words!"), dialogueTextX, dialogueTextY, ConsoleColor.Yellow, soundPath + "press-enter.mp3");
                 Draw.DrawObject(dialogue);
                 Draw.DrawObjects(dialogueBorderLines);
                 PlayDialogueSound(dialogue);
